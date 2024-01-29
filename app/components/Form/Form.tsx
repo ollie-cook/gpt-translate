@@ -90,7 +90,7 @@ export default function Form() {
           <button className="text-sm mt-1 text-neutral-500 underline" onClick={() => setTypeLanguage(false)}>Click to select languages from list</button>
         }
         
-        <label htmlFor="phrase" className="mt-4">Phrase</label>
+        <label htmlFor="phrase" className="mt-4">Phrase to translate</label>
         <textarea id="phrase" name="phrase" className="border border-black w-full pl-1 rounded-sm" />
         <label htmlFor="context" className="mt-2">Context</label>
         <textarea id="context" name="context" className="border border-black w-full pl-1 rounded-sm" />
