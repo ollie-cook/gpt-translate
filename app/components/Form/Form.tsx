@@ -105,7 +105,7 @@ export default function Form() {
       </form>
       <div className="mt-8">
         <h2 className="text-2xl font-semibold">Translation:</h2>
-        <p>
+        <p className="mb-16">
           {translation != "" ? translation : "No translation yet"}
         </p>
       </div>
