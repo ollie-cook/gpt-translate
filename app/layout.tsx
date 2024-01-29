@@ -16,7 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} flex flex-col items-center`}>
+        <h1 className="text-5xl font-bold mt-4">GPT Translate</h1>
+        {children}
+      </body>
     </html>
   );
 }
