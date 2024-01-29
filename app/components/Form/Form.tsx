@@ -30,6 +30,7 @@ languages = languages.sort()
 
 export default function Form() {
   const [translation, setTranslation] = useState('')
+  const [typeLanguage, setTypeLanguage] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -65,13 +66,30 @@ export default function Form() {
     <>
       <form className="flex flex-col mt-8 items-start" onSubmit={handleSubmit}>
         <label htmlFor="from">Translate from</label>
-        <select name="from" id="from" className="border border-black rounded-sm" defaultValue="english">
-          {languages.map((language, index) => <option key={index} value={language.toLowerCase()}>{language}</option>)}
-        </select>
+        {
+          typeLanguage != true ?
+          <select name="from" id="from" className="border border-black rounded-sm text-lg" defaultValue="english">
+            {languages.map((language, index) => <option key={index} value={language.toLowerCase()}>{language}</option>)}
+          </select>
+          :
+          <input type="text" name="from" id="from" className="border border-black rounded-sm text-lg pl-1" />
+        }
         <label htmlFor="to" className="">to</label>
-        <select name="to" id="to" className="border border-black rounded-sm" defaultValue="french">
-          {languages.map((language, index) => <option key={index} value={language.toLowerCase()}>{language}</option>)}
-        </select>
+        {
+          typeLanguage != true ?
+          <select name="to" id="to" className="border border-black rounded-sm text-lg" defaultValue="french">
+            {languages.map((language, index) => <option key={index} value={language.toLowerCase()}>{language}</option>)}
+          </select>
+          :
+          <input type="text" name="to" id="to" className="border border-black rounded-sm text-lg pl-1" />
+        }
+        {
+          typeLanguage != true ?
+          <button className="text-sm mt-1 text-neutral-500 underline" onClick={() => setTypeLanguage(true)}>Languages not in list? Click to type instead</button>
+          :
+          <button className="text-sm mt-1 text-neutral-500 underline" onClick={() => setTypeLanguage(false)}>Click to select languages from list</button>
+        }
+        
         <label htmlFor="phrase" className="mt-4">Phrase</label>
         <textarea id="phrase" name="phrase" className="border border-black w-full pl-1 rounded-sm" />
         <label htmlFor="context" className="mt-2">Context</label>
