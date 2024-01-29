@@ -2,6 +2,32 @@
 
 import { useState } from "react"
 
+let languages = [
+  "English",
+  "Spanish",
+  "French",
+  "German",
+  "Italian",
+  "Mandarin",
+  "Hindi",
+  "Arabic",
+  "Bengali",
+  "Russian",
+  "Portugese",
+  "Urdu",
+  "Indonesian",
+  "Japanese",
+  "Pidgin",
+  "Marathi",
+  "Telugu",
+  "Turkish",
+  "Tamil",
+  "Yue Chinese",
+  "Vietnamese"
+]
+
+languages = languages.sort()
+
 export default function Form() {
   const [translation, setTranslation] = useState('')
   const [loading, setLoading] = useState(false)
@@ -9,9 +35,12 @@ export default function Form() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     setLoading(true)
+    setError("")
 
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
+    const from = formData.get('from')
+    const to = formData.get('to')
     const phrase = formData.get('phrase')
     const context = formData.get('context')
 
@@ -22,7 +51,7 @@ export default function Form() {
     }
 
     try{
-      const response = await fetch('/api/translate/?phrase=' + phrase + '&context=' + context)
+      const response = await fetch('/api/translate/?phrase=' + phrase + '&context=' + context + '&from=' + from + '&to=' + to)
       .then(response => response.json())
       .catch(error => console.error('Error:', error))
 
@@ -34,19 +63,27 @@ export default function Form() {
 
   return (
     <>
-      <form className="flex flex-col mt-8 items-center" onSubmit={handleSubmit}>
-        <label htmlFor="phrase" className="self-start">Phrase</label>
+      <form className="flex flex-col mt-8 items-start" onSubmit={handleSubmit}>
+        <label htmlFor="from">Translate from</label>
+        <select name="from" id="from" className="border border-black rounded-sm" defaultValue="english">
+          {languages.map((language, index) => <option key={index} value={language.toLowerCase()}>{language}</option>)}
+        </select>
+        <label htmlFor="to" className="">to</label>
+        <select name="to" id="to" className="border border-black rounded-sm" defaultValue="french">
+          {languages.map((language, index) => <option key={index} value={language.toLowerCase()}>{language}</option>)}
+        </select>
+        <label htmlFor="phrase" className="mt-4">Phrase</label>
         <textarea id="phrase" name="phrase" className="border border-black w-full pl-1 rounded-sm" />
-        <label htmlFor="context" className="mt-2 self-start">Context</label>
+        <label htmlFor="context" className="mt-2">Context</label>
         <textarea id="context" name="context" className="border border-black w-full pl-1 rounded-sm" />
         <button 
           type="submit" 
-          className="p-2 mt-4 bg-blue-500 text-white font-semibold text-lg rounded-sm hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="p-2 mt-4 bg-blue-500 text-white font-semibold text-lg rounded-sm self-center hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
           disabled={loading}
         >
           Translate
         </button>
-        {error != "" && <p className="text-red-500 mt-2">{error}</p>}
+        {error != "" && <p className="text-red-500 mt-2 self-center">{error}</p>}
       </form>
       <div className="mt-8">
         <h2 className="text-2xl font-semibold">Translation:</h2>
